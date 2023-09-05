@@ -10,4 +10,9 @@ setup(
     description="A Python package for filtering PZM variations.",
     packages=find_packages(),
     install_requires=requirements,
+    entry_points={
+        "console_scripts": [
+            "pzm-filter=pzm_filter:main"
+        ]
+    }
 )

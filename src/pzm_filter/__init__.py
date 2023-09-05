@@ -2,8 +2,8 @@ import argparse
 import logging
 import os
 
-from modules.filter import Filter
-from modules.parser import Parser
+from .modules.filter import Filter
+from .modules.parser import Parser
 
 
 logger = logging.getLogger(__name__)
