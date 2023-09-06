@@ -1,13 +1,12 @@
 FROM python:3.9.18
 
-COPY . /opt/pzm_filter
+COPY ./pzm_tools /opt/pzm_tools
 
 RUN pip install --no-cache-dir --upgrade pip \
-    && python -m pip install /opt/pzm_filter
-#     && pip install -e /opt/pzm_filter
+    && python -m pip install /opt/pzm_tools
 
 # Clean up.
-RUN rm -rf /opt/pzm_filter
+RUN rm -rf /opt/pzm_tools
 
 # To assert if the package is correctly installed.
-RUN pzm-filter --help
+RUN pzm-tools --help
