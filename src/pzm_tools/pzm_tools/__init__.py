@@ -36,13 +36,13 @@ def main():
         level=logging.DEBUG)
 
     parser = argparse.ArgumentParser(
-        description="Filter PZM variants")
+        description="Tools for studying PZM variants")
 
     subparsers = parser.add_subparsers(title="subcommands", dest="subcommand")
 
     add_parser = subparsers.add_parser(
-        "filter",
-        help="Filters the variants in a given VCF file using a trained random forest model.")
+        "label",
+        help="Label the variants in a given VCF file as PZM or not-PZM using a trained random forest model.")
     add_parser.add_argument("model_filename", type=str, help="File storing a saved random forest model.")
     add_parser.add_argument("vcf_filename", type=str, help="Input VCF filename")
     add_parser.add_argument(
