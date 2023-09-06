@@ -9,7 +9,7 @@ from .modules.parser import Parser
 logger = logging.getLogger(__name__)
 
 
-def call_filter(model_filename: str, vcf_filename: str, binary_labels: bool):
+def call_filter(model_filename: str, vcf_filename: str, binary_labels: bool, output_prefix: str=None):
     parser = Parser()
     variants_df = parser.read_vcf(vcf_filename)
 
@@ -23,7 +23,11 @@ def call_filter(model_filename: str, vcf_filename: str, binary_labels: bool):
     basename, ext = os.path.splitext(filename)
     if ext == ".gz":
         basename, _ = os.path.splitext(basename)
-    output_filename = os.path.join(directory, f"predict_{basename}.csv")
+    # Note: do not join the directory as the following as it results in creating output
+    # file in the same directory as the input, which is not compatible with Cromwell
+    # (it is expecting outputs to be in the execution directory, not the input).
+    # output_filename = os.path.join(directory, f"predict_{basename}.csv")
+    output_filename = (f"{output_prefix}_" if output_prefix else "") + basename + ".csv"
 
     logger.info(f"Start serializing the parsed variants and their predictions to `{output_filename}`")
     variants_df_predict.to_csv(output_filename)
@@ -33,22 +37,30 @@ def call_filter(model_filename: str, vcf_filename: str, binary_labels: bool):
 def main():
     logging.basicConfig(
         format="%(asctime)s - %(levelname)s - %(message)s",
-        level=logging.DEBUG)
+        level=logging.DEBUG
+    )
 
     parser = argparse.ArgumentParser(
-        description="Tools for studying PZM variants")
+        description="Tools for studying PZM variants"
+    )
 
     subparsers = parser.add_subparsers(title="subcommands", dest="subcommand")
 
     add_parser = subparsers.add_parser(
         "label",
-        help="Label the variants in a given VCF file as PZM or not-PZM using a trained random forest model.")
+        help="Label the variants in a given VCF file as PZM or not-PZM using a trained random forest model."
+    )
     add_parser.add_argument("model_filename", type=str, help="File storing a saved random forest model.")
     add_parser.add_argument("vcf_filename", type=str, help="Input VCF filename")
     add_parser.add_argument(
         "--binary-labels", "-b", action="store_true",
         help="If set, labels predictions `0` and `1` instead of their default equivalents "
-             "`Not PZM` and `PZM` respectively.")
+             "`Not PZM` and `PZM` respectively."
+    )
+    add_parser.add_argument(
+        "--output-prefix", "-p",
+        help="A unix-filename compatible prefix to be prepended to the output files generated."
+    )
     add_parser.set_defaults(func=call_filter)
 
     args = parser.parse_args()
