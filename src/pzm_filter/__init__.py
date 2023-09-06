@@ -31,6 +31,10 @@ def call_filter(model_filename: str, vcf_filename: str, binary_labels: bool):
 
 
 def main():
+    logging.basicConfig(
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        level=logging.DEBUG)
+
     parser = argparse.ArgumentParser(
         description="Filter PZM variants")
 
@@ -60,7 +64,4 @@ def main():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(
-        format="%(asctime)s - %(levelname)s - %(message)s",
-        level=logging.DEBUG)
     main()
