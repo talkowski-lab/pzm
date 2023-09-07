@@ -76,5 +76,6 @@ task ClassifyUsingRandomForest {
         disks: "local-disk " + select_first([runtime_attr.disks, runtime_default.disks])  + " SSD"
         preemptible: select_first([runtime_attr.preemptible, runtime_default.preemptible])
         maxRetries: select_first([runtime_attr.max_retries, runtime_default.max_retries])
+        noAddress: true
     }
 }
