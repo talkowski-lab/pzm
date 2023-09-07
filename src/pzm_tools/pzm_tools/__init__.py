@@ -9,7 +9,7 @@ from .modules.parser import Parser
 logger = logging.getLogger(__name__)
 
 
-def call_filter(model_filename: str, vcf_filename: str, binary_labels: bool, output_prefix: str=None):
+def call_filter(model_filename: str, vcf_filename: str, binary_labels: bool, output_prefix: str = None):
     parser = Parser()
     variants_df = parser.read_vcf(vcf_filename)
 
