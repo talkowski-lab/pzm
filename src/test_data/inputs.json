@@ -1,0 +1,11 @@
+{
+  "Classifier.model_file": "test_data/rf_model.joblib",
+  "Classifier.vcfs": [
+    "test_data/SS0012986.vcf.gz"
+  ],
+  "Classifier.vcfs_index": [
+    "test_data/SS0012986.vcf.gz.tbi"
+  ],
+  "Classifier.docker": "us.gcr.io/broad-dsde-methods/vjalili/pzm:v0.1",
+  "Classifier.binary_labels": false
+}

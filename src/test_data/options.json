@@ -1,0 +1,6 @@
+{
+  "workflow_failure_mode": "ContinueWhilePossible",
+  "read_from_cache" : true,
+  "write_to_cache" : true,
+  "final_workflow_outputs_dir": "cromwell-executions/outputs/"
+}
