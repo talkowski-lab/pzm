@@ -6,6 +6,7 @@ struct RuntimeAttributes {
     Int? disks
     Int? preemptible
     Int? max_retries
+    Boolean? no_address
 }
 
 workflow Classifier {
@@ -65,7 +66,8 @@ task ClassifyUsingRandomForest {
         disks: 10 + (
             2 * ceil(size([
                 model_file,
-                vcfs], "GiB")))
+                vcfs], "GiB"))),
+        no_address: true
     }
     RuntimeAttributes runtime_attr = select_first([runtime_override, runtime_default])
 
@@ -76,6 +78,6 @@ task ClassifyUsingRandomForest {
         disks: "local-disk " + select_first([runtime_attr.disks, runtime_default.disks])  + " SSD"
         preemptible: select_first([runtime_attr.preemptible, runtime_default.preemptible])
         maxRetries: select_first([runtime_attr.max_retries, runtime_default.max_retries])
-        noAddress: true
+        noAddress: select_first([runtime_attr.no_address, runtime_default.no_address])
     }
 }
