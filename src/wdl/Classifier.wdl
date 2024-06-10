@@ -63,10 +63,7 @@ task ClassifyUsingRandomForest {
         memory: 3.75,
         preemptible: 3,
         max_retries: 1,
-        disks: 10 + (
-            2 * ceil(size([
-                model_file,
-                vcfs], "GiB"))),
+        disks: 10 + (2 * (ceil(size(model_file, "GB")) + ceil(size(select_all(vcfs), "GB")))),
         no_address: true
     }
     RuntimeAttributes runtime_attr = select_first([runtime_override, runtime_default])
